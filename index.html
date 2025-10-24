@@ -1,16 +1,148 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>my first web site</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Grading System</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f5f6fa;
+        margin: 0;
+        padding: 20px;
+    }
+    .container {
+        max-width: 700px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+    label {
+        font-weight: bold;
+    }
+    input {
+        width: 100%;
+        padding: 8px;
+        margin: 5px 0 15px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    button {
+        background: #3498db;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+    button:hover {
+        background: #2980b9;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+    th {
+        background: #3498db;
+        color: white;
+    }
+    .grade-A { color: green; font-weight: bold; }
+    .grade-B { color: #2980b9; font-weight: bold; }
+    .grade-C { color: orange; font-weight: bold; }
+    .grade-F { color: red; font-weight: bold; }
+</style>
 </head>
 <body>
-    <h1>my thalapathy</h1>
-<center>    
-<img src="goat-vijay-new-image-hd-1200-821585.jpg" alt="">
-</center>
+<div class="container">
+    <h1>🎓 Student Grading System</h1>
+
+    <label for="name">Student Name:</label>
+    <input type="text" id="name" placeholder="Enter student name">
+
+    <label for="marks1">Subject 1 Marks:</label>
+    <input type="number" id="marks1" min="0" max="100">
+
+    <label for="marks2">Subject 2 Marks:</label>
+    <input type="number" id="marks2" min="0" max="100">
+
+    <label for="marks3">Subject 3 Marks:</label>
+    <input type="number" id="marks3" min="0" max="100">
+
+    <button onclick="calculateGrade()">Add Student</button>
+    <button onclick="clearTable()">Clear All</button>
+
+    <table id="resultTable">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Total</th>
+                <th>Average</th>
+                <th>Grade</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<script>
+function calculateGrade() {
+    const name = document.getElementById('name').value.trim();
+    const marks1 = parseFloat(document.getElementById('marks1').value);
+    const marks2 = parseFloat(document.getElementById('marks2').value);
+    const marks3 = parseFloat(document.getElementById('marks3').value);
+
+    if (!name || isNaN(marks1) || isNaN(marks2) || isNaN(marks3)) {
+        alert("Please fill all fields correctly.");
+        return;
+    }
+
+    const total = marks1 + marks2 + marks3;
+    const avg = total / 3;
+    let grade = '';
+    let gradeClass = '';
+
+    if (avg >= 80) { grade = 'A'; gradeClass = 'grade-A'; }
+    else if (avg >= 60) { grade = 'B'; gradeClass = 'grade-B'; }
+    else if (avg >= 40) { grade = 'C'; gradeClass = 'grade-C'; }
+    else { grade = 'F'; gradeClass = 'grade-F'; }
+
+    const tableBody = document.querySelector('#resultTable tbody');
+    const row = document.createElement('tr');
+
+    row.innerHTML = `
+        <td>${name}</td>
+        <td>${total}</td>
+        <td>${avg.toFixed(2)}</td>
+        <td class="${gradeClass}">${grade}</td>
+    `;
+
+    tableBody.appendChild(row);
+
+    // Clear inputs
+    document.getElementById('name').value = '';
+    document.getElementById('marks1').value = '';
+    document.getElementById('marks2').value = '';
+    document.getElementById('marks3').value = '';
+}
+
+function clearTable() {
+    if (confirm("Are you sure you want to clear all records?")) {
+        document.querySelector('#resultTable tbody').innerHTML = '';
+    }
+}
+</script>
 </body>
-<button> </button>
 </html>
